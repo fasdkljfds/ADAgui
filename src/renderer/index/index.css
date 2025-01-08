@@ -1,0 +1,59 @@
+body{
+    background-color: rgba(0,0,0,0);
+}
+
+#box{
+    /*TODO 注意这里的大小和被隐藏的窗口大小是不同步的，可能会有潜在问题，必须一劳永逸地干掉窗口，让它对拖拽点击等都没有任何响应*/
+    width: 450px;
+    height: 55px;
+    background-color: #2f3133;
+    border-radius: 30px;
+    box-shadow:4px 4px 5px grey;
+    -webkit-app-region: drag;
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+#task-input {
+    display: flex;
+    -webkit-app-region: no-drag;
+    pointer-events: auto;
+    padding: 8px;
+    font-size: 14.5px;A
+    border: none;
+    border-radius: 6px;
+    box-sizing: border-box;
+    outline: none;
+    margin-left: 20px;
+    color: white;
+    background: transparent;
+    font-family: 'Microsoft YaHei', serif;
+}
+
+#run-btn {
+    user-select: none;
+    -webkit-app-region: no-drag;
+    pointer-events: auto;
+    display: flex;
+    width: 100px;
+    height: 38px;
+    background-color: #8ea8f9;
+    margin-left: auto;
+    margin-right: 10px;
+    border-radius: 30px;
+    font-family: 'Microsoft YaHei', serif;
+    font-weight: bold;
+    font-size: 14.5px;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s;
+    gap: 8px;
+    padding-right: 5px;
+}
+#run-btn:hover {
+    background-color: #b5c4fa;
+}
+
