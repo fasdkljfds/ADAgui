@@ -1,15 +1,18 @@
+const { marked } = require('marked');
 const {app, BrowserWindow} = require('electron')
+
 
 const createWindow = () => {
     const win = new BrowserWindow(
         {
-            width: 500,
-            height: 75,
-            transparent: true,
-            backgroundColor: '#00000000',
-            frame: false,
-            resizable: false,
-            show: false
+            width: 450,
+            height: 630,
+            autoHideMenuBar: true,
+            show: false,
+            webPreferences: {
+                nodeIntegration: true,
+                contextIsolation: false
+            }
         }
     )
 
@@ -17,12 +20,16 @@ const createWindow = () => {
     win.on('ready-to-show', ()=>{
         win.show()
     })
+    win.webContents.openDevTools()
 }
 
-app.whenReady().then(()=>{createWindow()})
+app.whenReady().then(()=>{
+    createWindow();
+})
 
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
         app.quit()
     }
+
 })

@@ -1,59 +1,358 @@
-body{
-    background-color: rgba(0,0,0,0);
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
+{
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    -webkit-font-smoothing: antialiased; /* 适用于Webkit浏览器（如Chrome、Safari） */
+    -moz-osx-font-smoothing: grayscale;  /* 适用于Firefox */
+    text-rendering: optimizeLegibility; /* 提高可读性 */
+    font-weight: 500;
 }
 
-#box{
-    /*TODO 注意这里的大小和被隐藏的窗口大小是不同步的，可能会有潜在问题，必须一劳永逸地干掉窗口，让它对拖拽点击等都没有任何响应*/
-    width: 450px;
-    height: 55px;
-    background-color: #2f3133;
-    border-radius: 30px;
-    box-shadow:4px 4px 5px grey;
-    -webkit-app-region: drag;
+:root{
+    /*背景颜色*/
+    --color-main-bg: #0c0e11;
+    /*显示区颜色*/
+    --color-display-bg: #1a1c1e;
+    /*消息选中边框颜色*/
+    --color-msg-border: #75777e;
+    /*运行按钮颜色*/
+    --color-run-btn: #8ea8f9;
+    /*运行按钮悬浮颜色*/
+    --color-run-btn-hover: #b5c4fa;
+    /*用户消息背景颜色*/
+    --color-user-msg-bg: #aeb7fa;
+    /*ADA消息背景颜色*/
+    --color-bot-msg-bg: var(--color-display-bg);
+    /*输入框背景颜色*/
+    --color-input-bg: #2f3133;
 
+    /*输入框字体大小*/
+    --color-input-font: white;
+    /*用户字体颜色*/
+    --color-user-font: black;
+    /*ADA字体颜色*/
+    --color-bot-font: white;
+
+    --color-scroll-bar-thumb: #868686;
+    --color-scroll-bar-track: #2F2F2F;
+
+    /*字体*/
+    --c-font-family: 'Microsoft Yahei', serif;
+}
+
+.theme-light-green{
+    /*背景颜色*/
+    --color-main-bg: #f9faff;
+    /*显示区颜色*/
+    --color-display-bg: #ffffff;
+    /*消息选中边框颜色*/
+    --color-msg-border: #75777e;
+    /*运行按钮颜色*/
+    --color-run-btn: #8cd8a6;
+    /*运行按钮悬浮颜色*/
+    --color-run-btn-hover: #79bd90;
+    /*用户消息背景颜色*/
+    --color-user-msg-bg: #8cd8a6;
+    /*ADA消息背景颜色*/
+    --color-bot-msg-bg: #f9faff;
+    /*输入框背景颜色*/
+    --color-input-bg: #e5e5e5;
+
+    /*输入框字体大小*/
+    --color-input-font: black;
+    /*用户字体颜色*/
+    --color-user-font: white;
+    /*ADA字体颜色*/
+    --color-bot-font: black;
+
+    --color-scroll-bar-thumb: rgba(0, 0, 0, 0.3);
+    --color-scroll-bar-track: rgba(0, 0, 0, 0.1);
+
+
+    /*字体*/
+    --c-font-family: 'Microsoft Yahei', serif;
+}
+
+.theme-light-blue{
+    /*背景颜色*/
+    --color-main-bg: #f9faff;
+
+    /*显示区颜色*/
+    --color-display-bg: #ffffff;
+
+    /*消息选中边框颜色*/
+    --color-msg-border: #C4CDD5;
+
+    /*运行按钮颜色*/
+    --color-run-btn: #e2f1fe;
+
+    /*运行按钮悬浮颜色*/
+    --color-run-btn-hover: #c1d8f9;
+
+    /*用户消息背景颜色*/
+    --color-user-msg-bg: #e2f1fe;
+
+    /*ADA消息背景颜色*/
+    --color-bot-msg-bg: #f4f4f4;
+
+    /*输入框背景颜色*/
+    --color-input-bg: #f7f7f7;
+
+    /*输入框字体大小*/
+    --color-input-font: black;
+
+    /*用户字体颜色*/
+    --color-user-font: black;
+
+    /*ADA字体颜色*/
+    --color-bot-font: black;
+
+    --color-scroll-bar-thumb: rgba(0, 0, 0, 0.3);
+
+    --color-scroll-bar-track: rgba(0, 0, 0, 0.1);
+
+
+    /*字体*/
+    --c-font-family:'Noto Sans SC', 'Microsoft Yahei', serif;
+}
+
+
+{
+    box-sizing: border-box;
+}
+
+body, html {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: var(--color-main-bg);
+    margin: 0;
+}
+
+.msg-display{
+    overflow-y : auto;
+    flex-flow: column;
+    flex: 1;
+
+    width: 100%;
+    height: 0;
+
+    scroll-behavior: smooth;
+}
+
+
+.msg-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    flex: 1;
+
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.msg-display::-webkit-scrollbar {
+    width: 6px;
+    height: 1px;
+}
+
+.msg-display::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    background: var(--color-scroll-bar-thumb);
+}
+
+.msg-display::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    background: var(--color-scroll-bar-track);
+}
+
+.user-msg-container{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    margin-top: 10px;
+    border-radius: 10px;
+    border: 0.5px solid transparent;
+    padding: 10px 5px;
+    /*box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);*/
+
+    transition: border 0.075s ease;
+
+}
+
+.user-msg-container:hover{
+    border: 0.5px solid var(--color-msg-border);
+}
+
+.bot-msg-container{
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    box-sizing: border-box;
+
+    margin-top: 10px;
+    border-radius: 10px;
+    border: 0.5px solid transparent;
+    padding: 10px 5px;
+
+    transition: border 0.075s ease;
+}
+
+.bot-msg-container:hover{
+    border: 0.5px solid var(--color-msg-border);
+}
+
+.user-msg{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+
+    padding: 10px;
+    max-width: 100%;
+    border-radius: 15px;
+
+    font-family: var(--c-font-family);
+    font-size: 14px;
+    word-wrap: break-word;
+    color: var(--color-user-font);
+
+    background-color: var(--color-user-msg-bg);
+}
+
+.user-msg *{
+    margin: 0;
+    padding: 0;
+}
+
+.bot-msg{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+
+    padding: 10px;
+    max-width: 100%;
+    border-radius: 15px;
+
+    font-family: var(--c-font-family);
+    font-size: 14px;
+    word-wrap: break-word;
+    color: var(--color-bot-font);
+
+    background-color: var(--color-bot-msg-bg);
+}
+
+.bot-msg *{
+    margin: 0;
+    padding: 0;
+}
+
+.bg{
+    display: grid;
+    place-items: center;
+
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+
+    background-color: var(--color-main-bg);
+}
+
+.display-zone {
+    width: 100%;
+    height: 100%;
+
+    padding: 10px;
+    border-radius: 20px;
+    margin: 20px;
+    overflow-y: auto;
+
+    background-color: var(--color-display-bg);
+}
+
+.main-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+
+}
+
+
+#box{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    margin-left: 10px;
+    margin-right: 10px;
+    height: 55px;
+    border-radius: 30px;
+
+    background-color: var(--color-input-bg);
 }
 
 #task-input {
     display: flex;
-    -webkit-app-region: no-drag;
-    pointer-events: auto;
+    flex: 1;
+
+
     padding: 8px;
-    font-size: 14.5px;A
     border: none;
     border-radius: 6px;
     box-sizing: border-box;
     outline: none;
     margin-left: 20px;
-    color: white;
+
+    color: var(--color-input-font);
+    font-size: 14.5px;
+    font-family: var(--c-font-family);
+
     background: transparent;
-    font-family: 'Microsoft YaHei', serif;
+
+    pointer-events: auto;
 }
 
 #run-btn {
-    user-select: none;
-    -webkit-app-region: no-drag;
-    pointer-events: auto;
     display: flex;
+    justify-content: center;
+    align-items: center;
+
     width: 100px;
     height: 38px;
-    background-color: #8ea8f9;
     margin-left: auto;
     margin-right: 10px;
     border-radius: 30px;
-    font-family: 'Microsoft YaHei', serif;
-    font-weight: bold;
-    font-size: 14.5px;
-    cursor: pointer;
-    justify-content: center;
-    align-items: center;
-    transition: background-color 0.3s;
     gap: 8px;
     padding-right: 5px;
-}
-#run-btn:hover {
-    background-color: #b5c4fa;
+
+    font-family: var(--c-font-family);
+    font-weight: bold;
+    font-size: 14.5px;
+    background-color: var(--color-run-btn);
+
+    transition: background-color 0.3s;
+
+    user-select: none;
+    cursor: pointer;
+    pointer-events: auto;
 }
 
+#run-btn:hover {
+    background-color: var(--color-run-btn-hover);
+}
