@@ -1,8 +1,12 @@
-const {createBotMsg, createUserMsg} = require('./msg_manage')
-const communicator = require("./communicator");
+const {createBotMsg, createUserMsg, editBotMsg, } = require('./utils/msg_manage')
+const communicator = require("./utils/communicator");
 const io = require('socket.io-client');
 
-document.addEventListener('DOMContentLoaded', ()=>{
+// 我不管，我就这样写配置
+let stream = true; // 是否流式输出
+
+
+document.addEventListener('DOMContentLoaded', ()=> {
     document.documentElement.className = 'theme-light-blue';
     const runBtn = document.getElementById('run-btn');
     const taskInput = document.getElementById('task-input');
@@ -24,49 +28,55 @@ document.addEventListener('DOMContentLoaded', ()=>{
         createBotMsg(data);
     })
 
+
     // run按钮事件
     async function handleRunButtonClick() {
         const userInput = taskInput.value;
-        if (userInput){
+        if (userInput) {
             taskInput.value = '';
 
             createUserMsg(userInput);
-            try{
-                const response = await communicator.sendMessage(userInput);
+        }
+        if (stream){
+            try {
+                const response = await communicator.fetchResponse(userInput);
                 createBotMsg(response.response);
-
-            }catch (e){
+            } catch (e) {
                 console.error(e);
                 createBotMsg('我似乎无法从服务端获取响应，请检查您的网络😥');
             }
         }
+        else{
+            console.log('start stream test')
+            communicator.fetchResponseStream()
+            try{
+                let botMsg = createBotMsg('思考中...');
+                const response_stream = await communicator.fetchResponseStream(userInput);
+                let content = '';
+                for await (const chunk of response_stream) {
+                    console.log(chunk)
 
-        // fetch('http://localhost:5000/chat' , {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify({message: userInput})
-        // })
-        //     .then(resposne => resposne.json()).then(data => {
-        //     console.log('Success:', data);
-        //     // 处理后端响应
-        //     createBotMsg(data.response);
-        // })
-        //     .catch((error) => {
-        //         console.error('Error:', error);
-        //     });
-        //
-        // taskInput.value = '';
-    }
+                    content = content + chunk
+                    editBotMsg(botMsg, content);
+                }
 
-    // run按钮快捷键
-    function kuaijiejian(event) {
-        if (event.ctrlKey && event.key === 'Enter') {
-            runBtn.click();
+            } catch (e){
+                console.error(e);
+                createBotMsg('我似乎无法从服务端获取响应，请检查您的网络😥');
+            }
         }
     }
 
-    runBtn.addEventListener('click', handleRunButtonClick);
-    document.addEventListener('keydown', kuaijiejian);
+
+
+
+        // run按钮快捷键
+        function kuaijiejian(event) {
+            if (event.ctrlKey && event.key === 'Enter') {
+                runBtn.click();
+            }
+        }
+
+        runBtn.addEventListener('click', handleRunButtonClick);
+        document.addEventListener('keydown', kuaijiejian);
 })

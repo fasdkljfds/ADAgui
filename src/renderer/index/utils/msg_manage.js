@@ -28,6 +28,10 @@ function renderMarkdown(markdownText) {
 
     return divElement;
 }
+function editBotMsg(msgEl, newMsg){
+    msgEl.innerHTML = md.render(newMsg)
+}
+
 
 function createUserMsg(msg){
     const userMsgContainer = document.createElement('div');
@@ -41,6 +45,7 @@ function createUserMsg(msg){
     msgContainer.appendChild(userMsgContainer);
 
     scrollToBottom();
+    return userMsg
 }
 
 function createBotMsg(msg){
@@ -55,6 +60,7 @@ function createBotMsg(msg){
     msgContainer.appendChild(botMsgContainer);
 
     scrollToBottom();
+    return botMsg
 }
 
-module.exports = { createUserMsg, createBotMsg }
+module.exports = { createUserMsg, createBotMsg, editBotMsg,  }
