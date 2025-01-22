@@ -28,7 +28,6 @@ document.addEventListener('DOMContentLoaded', ()=> {
         createBotMsg(data);
     })
 
-
     // run按钮事件
     async function handleRunButtonClick() {
         const userInput = taskInput.value;
@@ -48,7 +47,6 @@ document.addEventListener('DOMContentLoaded', ()=> {
         }
         else{
             console.log('start stream test')
-            communicator.fetchResponseStream()
             try{
                 let botMsg = createBotMsg('思考中...');
                 const response_stream = await communicator.fetchResponseStream(userInput);
@@ -67,16 +65,13 @@ document.addEventListener('DOMContentLoaded', ()=> {
         }
     }
 
-
-
-
-        // run按钮快捷键
-        function kuaijiejian(event) {
-            if (event.ctrlKey && event.key === 'Enter') {
-                runBtn.click();
-            }
+    // run按钮快捷键
+    function kuaijiejian(event) {
+        if (event.ctrlKey && event.key === 'Enter') {
+            runBtn.click();
         }
+    }
 
-        runBtn.addEventListener('click', handleRunButtonClick);
-        document.addEventListener('keydown', kuaijiejian);
+    runBtn.addEventListener('click', handleRunButtonClick);
+    document.addEventListener('keydown', kuaijiejian);
 })
