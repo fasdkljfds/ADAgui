@@ -29,7 +29,9 @@ function renderMarkdown(markdownText) {
     return divElement;
 }
 function editBotMsg(msgEl, newMsg){
-    msgEl.innerHTML = md.render(newMsg)
+
+    msgEl.innerHTML = md.render(newMsg);
+    scrollToBottom();
 }
 
 

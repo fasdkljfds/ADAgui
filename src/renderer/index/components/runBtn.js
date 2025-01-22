@@ -1,4 +1,4 @@
-const {createUserMsg, createBotMsg} = require("../utils/msg_manage");
+const {createUserMsg, createBotMsg, editBotMsg} = require("../utils/msg_manage");
 const Communicator = require("../utils/communicator");
 const {config} = require('../config')
 
@@ -9,7 +9,7 @@ async function handleRunButtonClick() {
     const userInput = taskInput.value;
     if (userInput) {
         taskInput.value = '';
-
+    
         createUserMsg(userInput);
     }
     console.log(config.stream)
@@ -26,7 +26,12 @@ async function handleRunButtonClick() {
 
     async function renderStreamResponse(){
         console.log('start stream test')
-        // socket.emit('stream_request', {'msg': 'caonima'});
+        const botMsg = createBotMsg('让我想想..🤔')
+        let content = ''
+        for await (const chunk of Communicator.fetchResponseStream(userInput)){
+            content = content + chunk;
+            editBotMsg(botMsg, content);
+        }
     }
 
     if (config.stream)

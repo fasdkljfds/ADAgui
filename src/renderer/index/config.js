@@ -6,7 +6,7 @@ class Config {
     constructor() {
         if (!Config.#instance) {
             // 直接暴露属性
-            this.stream = false;
+            this.stream = true;
             Config.#instance = this;
         }
         return Config.#instance;

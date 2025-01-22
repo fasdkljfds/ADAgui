@@ -22,7 +22,7 @@ class Communicator {
             throw error; // 抛出错误以便调用方处理
         }
     }
-    async fetchResponseStream(message){
+    static async *fetchResponseStream(message){
         const response = await fetch('http://localhost:5000/chat_stream', {
             method: 'POST',
             headers: {
@@ -40,6 +40,7 @@ class Communicator {
             if (done) break;
             let text = decoder.decode(value);
             console.log('Received', text);
+            yield text
         }
     }
 }
