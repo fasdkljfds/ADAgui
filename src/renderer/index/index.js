@@ -23,9 +23,14 @@ document.addEventListener('DOMContentLoaded', ()=> {
     })
 
     // TODO 异步，事件冲突
+    // 另外这个并没有使用
     socket.on('ada', (data) => {
         console.log(data);
         createBotMsg(data);
+    })
+
+    socket.on('stream_chunk', async (data) =>{
+        createBotMsg('cao')
     })
 
     // run按钮事件
@@ -36,7 +41,8 @@ document.addEventListener('DOMContentLoaded', ()=> {
 
             createUserMsg(userInput);
         }
-        if (stream){
+
+        async function renderResponse(){
             try {
                 const response = await communicator.fetchResponse(userInput);
                 createBotMsg(response.response);
@@ -45,24 +51,16 @@ document.addEventListener('DOMContentLoaded', ()=> {
                 createBotMsg('我似乎无法从服务端获取响应，请检查您的网络😥');
             }
         }
-        else{
+
+        async function renderStreamResponse(){
             console.log('start stream test')
-            try{
-                let botMsg = createBotMsg('思考中...');
-                const response_stream = await communicator.fetchResponseStream(userInput);
-                let content = '';
-                for await (const chunk of response_stream) {
-                    console.log(chunk)
-
-                    content = content + chunk
-                    editBotMsg(botMsg, content);
-                }
-
-            } catch (e){
-                console.error(e);
-                createBotMsg('我似乎无法从服务端获取响应，请检查您的网络😥');
-            }
+            socket.emit('stream_request', {'msg': 'caonima'});
         }
+
+        if (stream)
+            await renderStreamResponse();
+        else
+            await renderResponse();
     }
 
     // run按钮快捷键
