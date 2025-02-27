@@ -5,8 +5,8 @@ class Config {
 
     constructor() {
         if (!Config.#instance) {
-            // 直接暴露属性
             this.stream = true;
+            this._ip = 'http://localhost:5001'
             Config.#instance = this;
         }
         return Config.#instance;

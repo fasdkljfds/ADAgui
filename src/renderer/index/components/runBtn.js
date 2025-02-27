@@ -12,7 +12,6 @@ async function handleRunButtonClick() {
     
         createUserMsg(userInput);
     }
-    console.log(config.stream)
 
     async function renderResponse(){
         try {

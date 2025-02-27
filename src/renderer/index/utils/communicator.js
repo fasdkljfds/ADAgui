@@ -1,9 +1,10 @@
 // 处理与服务端的通信
+const {config} = require('../config')
 
 class Communicator {
     static async fetchResponse(message) {
         try {
-            const response = await fetch('http://localhost:5000/chat', {
+            const response = await fetch('http://localhost:5050/ada/chat', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -23,7 +24,7 @@ class Communicator {
         }
     }
     static async *fetchResponseStream(message){
-        const response = await fetch('http://localhost:5000/chat_stream', {
+        const response = await fetch('http://localhost:5050/ada/chat_stream', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -34,7 +35,6 @@ class Communicator {
         const reader = readableStream.getReader();
 
         const decoder = new TextDecoder('utf-8')
-
         while (true){
             const {done, value} = await reader.read();
             if (done) break;
