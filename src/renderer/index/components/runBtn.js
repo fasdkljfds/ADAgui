@@ -1,4 +1,4 @@
-const {createUserMsg, createBotMsg, editBotMsg} = require("../utils/msg_manage");
+const {createUserMsg, createBotMsg, editBotMsg, resetMsgContainer} = require("../utils/msg_manage");
 const Communicator = require("../utils/communicator");
 const {config} = require('../config')
 
@@ -39,10 +39,20 @@ async function handleRunButtonClick() {
         await renderResponse();
 }
 
+
 // run按钮快捷键
-function kuaijiejian(event) {
+async function kuaijiejian(event) {
     if (event.ctrlKey && event.key === 'Enter') {
         runBtn.click();
+    }
+
+    if (event.ctrlKey && (event.key === 'r' || event.key === 'R')) {
+        try{
+            const response = await Communicator.resetChat();
+        }catch (e){
+            console.error(e)
+        }
+        resetMsgContainer()
     }
 }
 

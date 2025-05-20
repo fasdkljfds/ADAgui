@@ -65,4 +65,14 @@ function createBotMsg(msg){
     return botMsg
 }
 
-module.exports = { createUserMsg, createBotMsg, editBotMsg,  }
+
+function resetMsgContainer(){
+    while (msgContainer.firstChild){
+        msgContainer.removeChild(msgContainer.firstChild)
+    }
+
+}
+
+
+
+module.exports = { createUserMsg, createBotMsg, editBotMsg,  resetMsgContainer}

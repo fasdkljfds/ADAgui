@@ -43,6 +43,19 @@ class Communicator {
             yield text
         }
     }
+
+    static async resetChat(){
+        // 重置当前聊天
+        const response = await fetch('http://localhost:5050/ada/reset_chat',{
+            method: 'POST',
+            headers:{
+                'Content-Type': 'application/json',
+            },
+            body: {
+                'JUST': 'AJOKE'
+            }
+        })
+    }
 }
 
 module.exports = Communicator;

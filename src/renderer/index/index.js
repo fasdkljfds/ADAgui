@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', ()=> {
     runBtn.addEventListener('click', handleRunButtonClick);
     document.addEventListener('keydown', kuaijiejian);
 
+
     // // 开启全双工信道
     // const socket = io('http://localhost:5000');
     // socket.on('connect', () => {
